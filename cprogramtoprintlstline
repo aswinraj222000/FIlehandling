@@ -1,0 +1,92 @@
+# include <stdio.h>
+# include <string.h>
+   
+int main( )
+{
+  
+    // Declare the file pointer
+    FILE *filePointer ;
+      
+    // Get the data to be written in file
+    char dataToBeWritten[50] 
+        = "Hallooowww";
+  
+    // Open the existing file GfgTest.c using fopen()
+    // in write mode using "w" attribute
+    filePointer = fopen("GfgTest.c", "w") ;
+      
+    // Check if this filePointer is null
+    // which maybe if the file does not exist
+    if ( filePointer == NULL )
+    {
+        printf( "GfgTest.c file failed to open." ) ;
+    }
+    else
+    {
+          
+        printf("The file is now opened.\n") ;
+          
+        // Write the dataToBeWritten into the file
+        if ( strlen (  dataToBeWritten  ) > 0 )
+        {
+              
+            // writing in the file using fputs()
+            fputs(dataToBeWritten, filePointer) ;   
+            fputs("\n", filePointer) ;
+        }
+          
+        // Closing the file using fclose()
+        fclose(filePointer) ;
+          
+        printf("Data successfully written in file GfgTest.c\n");
+        printf("The file is now closed.") ;
+    }
+    
+    filePointer = fopen("GfgTest.c", "a") ;
+    char dataToBeWritten2[50]  = "This is the second and the last line";
+
+    if ( filePointer == NULL )
+    {
+        printf( "GfgTest.c file failed to open." ) ;
+    }
+    else
+    {
+          
+        printf("The file is now opened.\n") ;
+          
+        // Write the dataToBeWritten into the file
+        if ( strlen (  dataToBeWritten2  ) > 0 )
+        {
+              
+            // writing in the file using fputs()
+            fputs(dataToBeWritten2, filePointer) ;   
+            fputs("\n", filePointer) ;
+        }
+          
+        // Closing the file using fclose()
+        fclose(filePointer) ;
+          
+        printf("Data successfully written in file GfgTest.c\n");
+        printf("The file is now closed.") ;
+    }
+
+    FILE *fd;                           // File pointer
+    char filename[] = "GfgTest.c";       // file to read
+    static const long max_len = 55+ 1;  // define the max length of the line to read
+    char buff[max_len + 1];             // define the buffer and allocate the length
+
+    if ((fd = fopen(filename, "rb")) != NULL)  {      // open file. I omit error checks
+
+    fseek(fd, -max_len, SEEK_END);            // set pointer to the end of file minus the length you need. Presumably there can be more than one new line caracter
+    fread(buff, max_len-1, 1, fd);            // read the contents of the file starting from where fseek() positioned us
+    fclose(fd);                               // close the file
+
+    buff[max_len-1] = '\0';                   // close the string
+    char *last_newline = strrchr(buff, '\n'); // find last occurrence of newlinw 
+    char *last_line = last_newline+1;         // jump to it
+
+    printf("captured: [%s]\n", last_line);    // captured: [472977827]
+    }
+   
+    return 0;        
+}
